@@ -1,63 +1,138 @@
 import Foundation
 
-class Calculator: AbstractOperation{
-      //Lv1 기본 연산
-//    func plus(frothNum: Int, backNum: Int) -> Int{
-//        return 0
-//    }
-//
-//    func multiply(frothNum: Int, backNum: Int) -> Int{
-//        return frothNum * backNum
-//    }
-//
-//    func minus(frothNum: Int, backNum: Int) -> Int{
-//        return frothNum - backNum
-//    }
-//
-//    func divide(frothNum: Int, backNum: Int) -> Int{
-//        return frothNum / backNum
-//    }
-    func calculator(frothNum: Int, backNum: Int) -> Int {
+//lv1
+class Calculator {
+    func calculate(_ oper: String ,_ firstNumber: Double ,_ secondNumber: Double ) -> Double {
+        switch oper{
+        case "+" :
+            return firstNumber + secondNumber
+        case "-" :
+            return firstNumber - secondNumber
+        case "*" :
+            return firstNumber * secondNumber
+        case "/" :
+            return firstNumber / secondNumber
+        case "%" ://Lv2 나머지 연산 추가
+            return firstNumber.truncatingRemainder(dividingBy: secondNumber)
+            
+        default:
+            return 0
+        }
+    }
+}
+
+//Lv1, Lv2 Main
+let calculator = Calculator()
+let addResult = calculator.calculate( "+",  3,  5)
+let subtractResult = calculator.calculate( "-",  9,  3)
+let multiplyResult = calculator.calculate( "*",  3,  4)
+let divideResult = calculator.calculate( "/",  12,  4)
+//Lv2
+let remainderResult = calculator.calculate( "%",  6,  4)
+print("addResult : \(addResult)")
+print("subtractResult : \(subtractResult)")
+print("multiplyResult : \(multiplyResult)")
+print("divideResult : \(divideResult)")
+print("remainderResult : \(remainderResult)")
+
+
+//Lv3
+class AddOperation {
+    func operate(firstNumber: Double, secondNumber: Double) -> Double {
+        return firstNumber + secondNumber
+    }
+}
+class SubtractOperation {
+    func operate(firstNumber: Double, secondNumber: Double) -> Double {
+        return firstNumber - secondNumber
+    }
+}
+class MultiplyOperation {
+    func operate(firstNumber: Double, secondNumber: Double) -> Double {
+        return firstNumber * secondNumber
+    }
+}
+class DivideOperation {
+    func operate(firstNumber: Double, secondNumber: Double) -> Double {
+        return firstNumber / secondNumber
+    }
+}
+
+
+//Lv3
+class CalculatorLv3 {
+    func calculate(_ oper: String ,_ firstNumber: Double ,_ secondNumber: Double ) -> Double {
+        switch oper{
+        case "+" :
+            return AddOperation().operate(firstNumber: firstNumber, secondNumber: secondNumber)
+        case "-" :
+            return SubtractOperation().operate(firstNumber: firstNumber, secondNumber: secondNumber)
+        case "*" :
+            return MultiplyOperation().operate(firstNumber: firstNumber, secondNumber: secondNumber)
+        case "/" :
+            return DivideOperation().operate(firstNumber: firstNumber, secondNumber: secondNumber)
+        default:
+            return 0
+        }
+    }
+}
+//Lv3 Main
+let calculatorLv3 = CalculatorLv3(
+    // 프로퍼티 초기화
+)
+
+let addResultLv3 = calculator.calculate( "+",  3,  5)
+let subtractResultLv3 = calculator.calculate( "-",  9,  3)
+let multiplyResultLv3 = calculator.calculate( "*",  3,  4)
+let divideResultLv3 = calculator.calculate( "/",  12,  4)
+
+print("addResultLv3 : \(addResultLv3)")
+print("subtractResultLv3 : \(subtractResultLv3)")
+print("multiplyResultLv3 : \(multiplyResultLv3)")
+print("divideResultLv3 : \(divideResultLv3)")
+
+//Lv4
+class CalculatorLv4{//부모 추상화
+    var oper: String
+    init(oper: String) {
+        self.oper = oper
+    }
+     func calculate(_ firstNumber: Double ,_ secondNumber: Double ) -> Double{
         return 0
     }
-    //Lv2 나머지 연산
-    func remainderOperation(frothNum: Int, backNum: Int){
-        print( frothNum % backNum )
-    }
-
 }
 
-let cal = Calculator()
-print(cal.remainderOperation(frothNum: 5, backNum: 3))
-
-//Lv3 클래스 상속을 하여 Calculator의 함수 재정의
-class AddOperation: Calculator{
-    override func calculator(frothNum: Int, backNum: Int) -> Int{
-        return frothNum + backNum
-    }
-}
-class SubstractOperation: Calculator{
-    override func calculator(frothNum: Int, backNum: Int) -> Int{
-        return frothNum - backNum
-    }
-}
-class MultiplyOperation: Calculator{
-    override func calculator(frothNum: Int, backNum: Int) -> Int{
-        return frothNum * backNum
-    }
-}
-class DivideOperation: Calculator{
-    override func calculator(frothNum: Int, backNum: Int) -> Int{
-        return frothNum / backNum
-    }
-}
-let test = AddOperation()
-print(test.calculator(frothNum: 2, backNum: 3))
-
-//Lv4 선택 구현 기능
-class AbstractOperation{
+class AbstractOperation: CalculatorLv4{//자식 구현체
     
+    override func calculate(_ firstNumber: Double, _ secondNumber: Double) -> Double{
+        switch super.oper{
+        case "+" :
+            return AddOperation().operate(firstNumber: firstNumber, secondNumber: secondNumber)
+        case "-" :
+            return SubtractOperation().operate(firstNumber: firstNumber, secondNumber: secondNumber)
+        case "*" :
+            return MultiplyOperation().operate(firstNumber: firstNumber, secondNumber: secondNumber)
+        case "/" :
+            return DivideOperation().operate(firstNumber: firstNumber, secondNumber: secondNumber)
+        default:
+            return 0
+        }
+    }
 }
-//protocol test{
-//    func add(frothNum: Int, backNum: Int) -> Int
-//}
+let calculatorLv4 = AbstractOperation(oper: "+")
+
+let addResultLv4 = calculatorLv4.calculate(3, 2)// 덧셈 연산
+
+// calculator에 뺄셈 기능하도록 프로퍼티 변경함수 호출
+let subtractResultLv4 = AbstractOperation(oper: "-").calculate(5, 1)
+
+// calculator에 곱셈 기능하도록 프로퍼티 변경함수 호출
+let multiplyResultLv4 = AbstractOperation(oper: "*").calculate(5, 2)
+
+// calculator에 나눗셈 기능하도록 프로퍼티 변경함수 호출
+let divideResultLv4 = AbstractOperation(oper: "/").calculate(6, 4)
+
+print("addResultLv4 : \(addResultLv4)")
+print("subtractResultLv4 : \(subtractResultLv4)")
+print("multiplyResultLv4 : \(multiplyResultLv4)")
+print("divideResultLv4 : \(divideResultLv4)")
