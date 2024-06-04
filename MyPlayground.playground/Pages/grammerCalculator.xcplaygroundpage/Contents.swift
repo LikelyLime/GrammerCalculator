@@ -100,6 +100,9 @@ class CalculatorLv4{//부모 추상화
      func calculate(_ firstNumber: Double ,_ secondNumber: Double ) -> Double{
         return 0
     }
+    func chngOper(_ oper: String){
+        self.oper = oper
+    }
 }
 
 class AbstractOperation: CalculatorLv4{//자식 구현체
@@ -119,18 +122,21 @@ class AbstractOperation: CalculatorLv4{//자식 구현체
         }
     }
 }
-let calculatorLv4 = AbstractOperation(oper: "+")
+let calculatorLv4: CalculatorLv4 = AbstractOperation(oper: "+")
 
 let addResultLv4 = calculatorLv4.calculate(3, 2)// 덧셈 연산
 
 // calculator에 뺄셈 기능하도록 프로퍼티 변경함수 호출
-let subtractResultLv4 = AbstractOperation(oper: "-").calculate(5, 1)
+calculatorLv4.oper = "-"
+let subtractResultLv4 = calculatorLv4.calculate(5, 1)
 
 // calculator에 곱셈 기능하도록 프로퍼티 변경함수 호출
-let multiplyResultLv4 = AbstractOperation(oper: "*").calculate(5, 2)
+calculatorLv4.oper = "*"
+let multiplyResultLv4 = calculatorLv4.calculate(5, 2)
 
 // calculator에 나눗셈 기능하도록 프로퍼티 변경함수 호출
-let divideResultLv4 = AbstractOperation(oper: "/").calculate(6, 4)
+calculatorLv4.oper = "/"
+let divideResultLv4 = calculatorLv4.calculate(6, 4)
 
 print("addResultLv4 : \(addResultLv4)")
 print("subtractResultLv4 : \(subtractResultLv4)")
