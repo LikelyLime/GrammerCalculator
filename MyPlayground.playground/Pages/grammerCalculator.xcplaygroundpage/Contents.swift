@@ -127,15 +127,15 @@ let calculatorLv4: CalculatorLv4 = AbstractOperation(oper: "+")
 let addResultLv4 = calculatorLv4.calculate(3, 2)// 덧셈 연산
 
 // calculator에 뺄셈 기능하도록 프로퍼티 변경함수 호출
-calculatorLv4.oper = "-"
+calculatorLv4.chngOper("-")
 let subtractResultLv4 = calculatorLv4.calculate(5, 1)
 
 // calculator에 곱셈 기능하도록 프로퍼티 변경함수 호출
-calculatorLv4.oper = "*"
+calculatorLv4.chngOper("*")
 let multiplyResultLv4 = calculatorLv4.calculate(5, 2)
 
 // calculator에 나눗셈 기능하도록 프로퍼티 변경함수 호출
-calculatorLv4.oper = "/"
+calculatorLv4.chngOper("/")
 let divideResultLv4 = calculatorLv4.calculate(6, 4)
 
 print("addResultLv4 : \(addResultLv4)")
